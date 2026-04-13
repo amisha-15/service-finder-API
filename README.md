@@ -1,21 +1,6 @@
 # 🚀 Service Finder API
 
-A RESTful backend application built using Spring Boot that allows users to manage and search local service providers like plumbers, electricians, etc.
-
----
-
-## 📌 Features
-
-* Add new service provider
-* View all providers (with pagination)
-* Search providers by service
-* Search providers by city
-* Update provider details
-* Delete provider
-* Input validation
-* Global exception handling
-* Clean API responses using DTO
-* Proper HTTP status codes using ResponseEntity
+A Spring Boot REST API to manage and search local service providers like plumbers, electricians, etc.
 
 ---
 
@@ -26,112 +11,101 @@ A RESTful backend application built using Spring Boot that allows users to manag
 * Spring Data JPA
 * MySQL
 * Maven
-* Postman
+* Swagger UI
 
 ---
 
-## 🏗️ Project Structure
+## ✨ Features
 
-```
-com.example.servicefinder
-│── controller       → API endpoints
-│── service          → Business logic
-│── repository       → Database operations
-│── model            → Entity (DB table)
-│── dto              → Request & Response DTOs
-│── exception        → Global exception handling
-```
+* ✅ Add, update, delete service providers
+* ✅ Search by service and city
+* ✅ Pagination support
+* ✅ DTO pattern (Request & Response separation)
+* ✅ Input validation
+* ✅ Global exception handling
+* ✅ Logging using SLF4J
+* ✅ Swagger UI for API documentation
 
 ---
 
 ## 📂 API Endpoints
 
-### ➕ Add Service Provider
+### ➤ Add Service Provider
 
-POST /add
+POST `/add`
 
-**Request Body:**
+### ➤ Get All (with pagination)
 
-```
-{
-  "name": "Ravi",
-  "service": "Plumber",
-  "city": "Nashik",
-  "contact": "9876543210"
-}
-```
+GET `/all?page=0&size=5`
 
----
+### ➤ Search by Service
 
-### 📄 Get All Providers (Pagination)
+GET `/search/service?serviceName=plumber`
 
-GET /all?page=0&size=2
+### ➤ Search by City
 
----
+GET `/search/city?city=nashik`
 
-### 🔍 Search by Service
+### ➤ Update Service Provider
 
-GET /search/service?serviceName=Plumber
+PUT `/update/{id}`
+
+### ➤ Delete Service Provider
+
+DELETE `/delete/{id}`
 
 ---
 
-### 🔍 Search by City
+## 📘 Swagger UI
 
-GET /search/city?city=Nashik
+Access API documentation:
 
----
-
-### ✏️ Update Provider
-
-PUT /update/{id}
+http://localhost:8080/swagger-ui/index.html
 
 ---
 
-### ❌ Delete Provider
-
-DELETE /delete/{id}
-
----
-
-## ✅ Validation
-
-* Name cannot be empty
-* Service cannot be empty
-* City cannot be empty
-* Contact must be 10 digits
-
----
-
-## 🔐 Key Concepts Used
-
-* DTO Pattern (Request & Response separation)
-* Pagination (Pageable)
-* ResponseEntity for HTTP responses
-* Exception Handling using @RestControllerAdvice
-* JPA & Hibernate for ORM
-
----
-
-## 🚀 How to Run
+## ⚙️ How to Run
 
 1. Clone the repository
-2. Open in IntelliJ
+
+```
+git clone https://github.com/amisha-15/service-finder-API.git
+```
+
+2. Open in IntelliJ / Eclipse
+
 3. Configure MySQL in `application.properties`
+
 4. Run the application
-5. Test APIs using Postman
+
+5. Open Swagger UI
 
 ---
 
-## 💡 Future Improvements
+## 🧠 Concepts Used
 
-* Add authentication (Spring Security)
-* Add ratings & reviews
-* Build frontend (React)
+* REST API design
+* Dependency Injection
+* DTO Pattern
+* Pagination & Sorting
+* Exception Handling
+* Logging
+* JPA & Hibernate
 
 ---
 
-## Author
+## 👩‍💻 Author
 
 Amisha Pawar
 
 ---
+
+## ⭐ Future Improvements
+
+* Add authentication (Spring Security + JWT)
+* Add file upload
+* Improve API design (/providers endpoints)
+* Add frontend (optional)
+
+---
+

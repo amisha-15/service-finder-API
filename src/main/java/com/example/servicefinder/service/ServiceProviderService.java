@@ -1,11 +1,13 @@
 package com.example.servicefinder.service;
 
+import com.example.servicefinder.exception.ResourceNotFoundException;
 import com.example.servicefinder.model.ServiceProvider;
 import com.example.servicefinder.repository.ServiceProviderRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 // pagination imports
@@ -14,22 +16,34 @@ import org.springframework.data.domain.Pageable;
 
 @Service
 public class ServiceProviderService {
+    private static final Logger logger =
+            LoggerFactory.getLogger(ServiceProviderService.class);
 
     @Autowired
     private ServiceProviderRepository repository;
 
     //  ADD
     public ServiceProvider add(ServiceProvider sp) {
+
+        logger.info("Saving service provider: {}", sp.getName());
+
         return repository.save(sp);
     }
 
     //  GET ALL (normal)
     public List<ServiceProvider> getAll() {
+
+        logger.info("Fetching all service providers");
+
         return repository.findAll();
     }
 
     //  GET ALL (pagination)
     public Page<ServiceProvider> getAll(Pageable pageable) {
+
+        logger.info("Fetching service providers with pagination: page={}, size={}",
+                pageable.getPageNumber(), pageable.getPageSize());
+
         return repository.findAll(pageable);
     }
 
@@ -45,18 +59,21 @@ public class ServiceProviderService {
 
     //  UPDATE
     public ServiceProvider update(int id, ServiceProvider sp) {
-        ServiceProvider existing = repository.findById(id).orElse(null);
 
-        if (existing != null) {
-            existing.setName(sp.getName());
-            existing.setService(sp.getService());
-            existing.setCity(sp.getCity());
-            existing.setContact(sp.getContact());
+        logger.info("Updating service provider with id: {}", id);
 
-            return repository.save(existing);
-        }
+        ServiceProvider existing = repository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("Service provider not found with id: {}", id);
+                    return new ResourceNotFoundException("Not found");
+                });
 
-        return null;
+        existing.setName(sp.getName());
+        existing.setService(sp.getService());
+        existing.setCity(sp.getCity());
+        existing.setContact(sp.getContact());
+
+        return repository.save(existing);
     }
 
     //  DELETE

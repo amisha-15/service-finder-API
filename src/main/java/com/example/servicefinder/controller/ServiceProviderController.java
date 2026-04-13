@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
+@Tag(name = "Service Provider API", description = "Manage service providers")
 @RestController
 public class ServiceProviderController {
 
@@ -45,10 +45,11 @@ public class ServiceProviderController {
         return ResponseEntity.status(201).body(response);
     }
     //GET ALL
+    @Operation(summary = "Get all service providers")
     @GetMapping("/all")
     public ResponseEntity<List<ServiceProviderResponseDTO>> getAll(
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<ServiceProvider> pageData = service.getAll(pageable);
